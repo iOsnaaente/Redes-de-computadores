@@ -1,8 +1,18 @@
 #include<stdio.h>       //printf
 #include<stdlib.h>      //exit(0);
 
-#include<arpa/inet.h>
-#include<netdb.h>
+#ifdef LINUX
+    // Código para Linux
+    #include<sys/socket.h>
+    #include<arpa/inet.h>
+    #include<netdb.h>
+#elif WIN32
+    // Código para Windows
+    #include<winsock2.h>
+#else
+    // Plataforma não suportada
+    #error Plataforma não suportada
+#endif
 
 
 // Socket UDP Client  
@@ -10,7 +20,7 @@
 #define IPSer "127.0.0.0" 
 #define PORTA 8080
 
-int main(){
+int main(int argc, char *argv[]){
 
     struct sockaddr_in socketAlvo;                          // CRIA ESTRUTURA DO SOCKET SERVIDOR 
 
