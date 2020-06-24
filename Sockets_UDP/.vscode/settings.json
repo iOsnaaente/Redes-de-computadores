@@ -3,6 +3,15 @@
         "cmath": "cpp",
         "cstddef": "cpp",
         "limits": "cpp",
-        "type_traits": "cpp"
+        "type_traits": "cpp",
+        "cstdarg": "cpp",
+        "cstdio": "cpp",
+        "cstdlib": "cpp",
+        "cstdint": "cpp",
+        "exception": "cpp",
+        "new": "cpp",
+        "*.tcc": "cpp",
+        "typeinfo": "cpp",
+        "string": "cpp"
     }
 }
