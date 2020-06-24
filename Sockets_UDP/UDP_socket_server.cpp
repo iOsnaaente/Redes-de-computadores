@@ -6,8 +6,8 @@
     Tarefa de Redes Industriais
     Protocolo de transferencia UDP
 */
-
 #include<sys/socket.h>
+#include<arpa/inet.h>
 #include<stdlib.h>      
 #include<string.h> 
 #include<netdb.h>
@@ -22,7 +22,7 @@ int receive_data = 0;
 char BUFF[MAX_BUF_LEN];
 
 struct sockaddr_in Socket_Client;
-int Socket_Client_Size = sizeof(struct sockaddr_in);
+int Socket_Client_Size = sizeof(Socket_Client);
 
 char MESSAGE[] = "MENSAGEM RECEBIDO PELO SERVIDOR NA PORTA 8080";
 
@@ -51,17 +51,18 @@ int main(){
         printf("Aguardando transmissão de dados....\n");
         fflush(stdout);
 
-        receive_data = recvfrom(Sock, BUFF, MAX_BUF_LEN, 0, (struct  sockaddr *)&Socket_Client, Socket_Client_Size);
+        receive_data = recvfrom(Sock, BUFF, MAX_BUF_LEN, 0, (struct  sockaddr *)&Socket_Client, (socklen_t *)&Socket_Client_Size);
         if (receive_data == -1 ){
             erro((char *)"recvfrom()");
         }else{
-            printf("Dados recebidos de %s:%d \n", Socket_Client.sin_addr, ntohs(Socket_Client.sin_port));
-            printf("Recebido: %s\n", BUFF);
+            printf("Dados recebidos de %s:%d \n", inet_ntoa(Socket_Client.sin_addr), ntohs(Socket_Client.sin_port));
+            for (int i=0; i<receive_data; i++)
+                printf("Recebido: %d\n", (int)BUFF[i]);
         }
         
-        int sendStatus = sendto(Sock, (void *)MESSAGE, strlen(MESSAGE), 0, (struct sockaddr *)&Socket_Client.sin_addr, sizeof(struct sockaddr));
-        if (sendStatus == -1)
-            erro((char *)"sendto() erro na resposta parao cliente");    
+        //int sendStatus = sendto(Sock, (void *)MESSAGE, strlen(MESSAGE), 0, (struct sockaddr *)&Socket_Client.sin_addr, sizeof(struct sockaddr));
+        //if (sendStatus == -1)
+        //    erro((char *)"sendto() erro na resposta parao cliente");    
     }
 
     //if (close(Sock) == -1)
