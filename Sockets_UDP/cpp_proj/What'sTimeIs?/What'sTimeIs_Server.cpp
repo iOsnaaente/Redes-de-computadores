@@ -50,7 +50,6 @@ bool flagReceive = false;
 void erro(char * str_erro);
 void getTime();
 
-
 int main(){    
 
     int Sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
@@ -65,12 +64,13 @@ int main(){
     Socket_Server.sin_port        = htons(PORTA);
     Socket_Server.sin_addr.s_addr = INADDR_ANY;  
 
+    // CRIA O SERVIDOR
     if( bind(Sock, (struct  sockaddr *) &Socket_Server, sizeof(Socket_Server)) == -1)
         erro((char *)"bind");
 
     while(1){
         
-        printf("Aguardando transmissão de dados....\n");
+        printf("\nAguardando transmissão de dados....\n");
         fflush(stdout);
 
         receive_data = recvfrom(Sock, RECEIVE_BUFF, RECEIVE_LEN, 0, (struct  sockaddr *)&Socket_Client, (socklen_t *)&Socket_Client_Size);
